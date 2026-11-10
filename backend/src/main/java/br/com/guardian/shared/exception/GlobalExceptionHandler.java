@@ -102,12 +102,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(response);
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex, HttpServletRequest request) {
+    @ExceptionHandler({
+            AccessDeniedException.class,
+            org.springframework.security.access.AccessDeniedException.class
+    })
+    public ResponseEntity<ErrorResponse> handleAccessDenied(Exception ex, HttpServletRequest request) {
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.FORBIDDEN.value(),
                 "FORBIDDEN",
-                ex.getMessage(),
+                ex.getMessage() != null ? ex.getMessage() : "Acesso negado.",
                 request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
