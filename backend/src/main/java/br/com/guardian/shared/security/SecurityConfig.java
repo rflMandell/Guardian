@@ -88,6 +88,18 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/api/v1/auth/**"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.GET,
+                                "/api/v1/municipalities/**",
+                                "/api/v1/geolocation/**",
+                                "/api/v1/risk-areas/**",
+                                "/api/v1/risk-assessments/**",
+                                "/api/v1/alerts/**",
+                                "/api/v1/safe-locations/**",
+                                "/api/v1/occurrences/**"
+                        ).permitAll()
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/v1/occurrences"
+                        ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // Rotas para testes ou endpoints protegidos
                         .anyRequest().authenticated()
