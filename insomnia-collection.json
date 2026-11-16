@@ -1,0 +1,222 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-11-16T13:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v9.3.0",
+  "resources": [
+    {
+      "_id": "wrk_guardian",
+      "parentId": null,
+      "modified": 1794834000000,
+      "created": 1794834000000,
+      "name": "Guardian API — v1",
+      "description": "Coleção de testes manuais e demonstração oficial da Guardian REST API (MVP)",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_base",
+      "parentId": "wrk_guardian",
+      "modified": 1794834000000,
+      "created": 1794834000000,
+      "name": "Local Environment",
+      "data": {
+        "base_url": "http://localhost:8080/api/v1",
+        "citizen_token": "",
+        "operator_token": "",
+        "admin_token": "",
+        "municipality_id": ""
+      },
+      "_type": "environment"
+    },
+    {
+      "_id": "fld_health",
+      "parentId": "wrk_guardian",
+      "name": "00 - Health Check",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_health",
+      "parentId": "fld_health",
+      "name": "Health Status",
+      "url": "{{ _.base_url }}/health",
+      "method": "GET",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_auth",
+      "parentId": "wrk_guardian",
+      "name": "01 - Autenticação & Identidade",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_register",
+      "parentId": "fld_auth",
+      "name": "Cadastrar Cidadão",
+      "url": "{{ _.base_url }}/auth/register",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Maria Silva\",\n  \"email\": \"maria.silva@example.com\",\n  \"password\": \"SenhaSegura@123\"\n}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_login_citizen",
+      "parentId": "fld_auth",
+      "name": "Login — Cidadão Demo",
+      "url": "{{ _.base_url }}/auth/login",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"cidadao.demo@example.com\",\n  \"password\": \"SenhaSegura@123\"\n}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_login_operator",
+      "parentId": "fld_auth",
+      "name": "Login — Operador Municipal Demo",
+      "url": "{{ _.base_url }}/auth/login",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"operador.demo@example.com\",\n  \"password\": \"SenhaSegura@123\"\n}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_login_admin",
+      "parentId": "fld_auth",
+      "name": "Login — Administrador Global Demo",
+      "url": "{{ _.base_url }}/auth/login",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"admin.demo@example.com\",\n  \"password\": \"SenhaSegura@123\"\n}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "fld_municipalities",
+      "parentId": "wrk_guardian",
+      "name": "02 - Municípios",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_list_municipalities",
+      "parentId": "fld_municipalities",
+      "name": "Listar Municípios Monitorados",
+      "url": "{{ _.base_url }}/municipalities?size=20",
+      "method": "GET",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_occurrences",
+      "parentId": "wrk_guardian",
+      "name": "03 - Ocorrências & Relatos",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_create_occurrence",
+      "parentId": "fld_occurrences",
+      "name": "Registrar Ocorrência (Cidadão)",
+      "url": "{{ _.base_url }}/occurrences",
+      "method": "POST",
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ _.citizen_token }}" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"eventCategory\": \"FLOODING\",\n  \"description\": \"Ponto de alagamento com água subindo sobre a calçada.\",\n  \"location\": {\n    \"latitude\": -23.5505,\n    \"longitude\": -46.6333\n  },\n  \"anonymous\": false\n}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_list_occurrences",
+      "parentId": "fld_occurrences",
+      "name": "Consultar Ocorrências (Triagem Operador)",
+      "url": "{{ _.base_url }}/occurrences?page=0&size=20",
+      "method": "GET",
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ _.operator_token }}" }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_risk",
+      "parentId": "wrk_guardian",
+      "name": "04 - Avaliação de Risco",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_latest_risk",
+      "parentId": "fld_risk",
+      "name": "Consultar Risco Mais Recente (Público)",
+      "url": "{{ _.base_url }}/risk-assessments/latest?municipalityId={{ _.municipality_id }}",
+      "method": "GET",
+      "_type": "request"
+    },
+    {
+      "_id": "req_recalc_risk",
+      "parentId": "fld_risk",
+      "name": "Recalcular Risco Determinístico (Admin)",
+      "url": "{{ _.base_url }}/admin/risk-assessments/recalculate",
+      "method": "POST",
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ _.operator_token }}" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"municipalityId\": \"{{ _.municipality_id }}\",\n  \"eventCategory\": \"FLOODING\"\n}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "fld_alerts",
+      "parentId": "wrk_guardian",
+      "name": "05 - Alertas Guardian",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_list_alerts",
+      "parentId": "fld_alerts",
+      "name": "Listar Alertas Vigentes (Público)",
+      "url": "{{ _.base_url }}/alerts?activeOnly=true&size=20",
+      "method": "GET",
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_alert",
+      "parentId": "fld_alerts",
+      "name": "Emitir Alerta Guardian (Operador Municipal)",
+      "url": "{{ _.base_url }}/admin/alerts",
+      "method": "POST",
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ _.operator_token }}" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"municipalityId\": \"{{ _.municipality_id }}\",\n  \"title\": \"Alerta de Risco de Alagamento Iminente\",\n  \"description\": \"Chuva intensa com vias bloqueadas na região central.\",\n  \"severity\": \"HIGH\",\n  \"originType\": \"GUARDIAN\",\n  \"expiresAt\": \"2026-11-20T22:00:00Z\",\n  \"recommendations\": [\"Evite áreas baixas\", \"Acompanhe orientações oficiais\"]\n}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "fld_safe_locations",
+      "parentId": "wrk_guardian",
+      "name": "06 - Pontos Seguros & Abrigos",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_list_safe_locations",
+      "parentId": "fld_safe_locations",
+      "name": "Consultar Abrigos Disponíveis (RN042)",
+      "url": "{{ _.base_url }}/safe-locations?availability=AVAILABLE&size=20",
+      "method": "GET",
+      "_type": "request"
+    }
+  ]
+}

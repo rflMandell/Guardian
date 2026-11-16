@@ -35,7 +35,12 @@ public class GeolocationService {
             Coordinates coords = new Coordinates(request.latitude(), request.longitude());
             Point point = GeometryUtils.createPoint(coords.latitude(), coords.longitude());
 
-            List<Municipality> matching = municipalityRepository.findByContainingPoint(point);
+            List<Municipality> matching;
+            try {
+                matching = municipalityRepository.findByContainingPoint(point);
+            } catch (Exception ex) {
+                matching = List.of();
+            }
             Municipality municipality = matching.isEmpty()
                     ? municipalityRepository.findAll().stream().findFirst().orElse(null)
                     : matching.get(0);
@@ -81,7 +86,12 @@ public class GeolocationService {
         Coordinates coords = new Coordinates(latitude, longitude);
         Point point = GeometryUtils.createPoint(coords.latitude(), coords.longitude());
 
-        List<Municipality> municipalities = municipalityRepository.findByContainingPoint(point);
+        List<Municipality> municipalities;
+        try {
+            municipalities = municipalityRepository.findByContainingPoint(point);
+        } catch (Exception ex) {
+            municipalities = List.of();
+        }
         Municipality municipality = municipalities.isEmpty()
                 ? municipalityRepository.findAll().stream().findFirst().orElse(null)
                 : municipalities.get(0);

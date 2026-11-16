@@ -60,7 +60,12 @@ public class OccurrenceService {
         Point point = GeometryUtils.createPoint(coords.latitude(), coords.longitude());
 
         // Identificação geográfica do município
-        List<Municipality> matching = municipalityRepository.findByContainingPoint(point);
+        List<Municipality> matching;
+        try {
+            matching = municipalityRepository.findByContainingPoint(point);
+        } catch (Exception ex) {
+            matching = List.of();
+        }
         Municipality municipality = matching.isEmpty()
                 ? municipalityRepository.findAll().stream().findFirst().orElse(null)
                 : matching.get(0);
