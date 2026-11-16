@@ -1,6 +1,8 @@
 package br.com.guardian.safelocation.domain.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import org.locationtech.jts.geom.Point;
 
 import java.time.Instant;
@@ -44,6 +46,7 @@ public class SafeLocation {
     @Column(name = "accessibility_info", columnDefinition = "TEXT")
     private String accessibilityInfo;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "operating_hours", columnDefinition = "jsonb")
     private String operatingHours;
 

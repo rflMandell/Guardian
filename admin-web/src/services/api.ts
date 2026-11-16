@@ -2,6 +2,9 @@ import {
   ApiResponse,
   PaginatedResponse,
   LoginResponseData,
+  AuthTokens,
+  UserSummary,
+  UserRole,
   OccurrenceReport,
   RiskAssessment,
   Alert,
@@ -10,6 +13,14 @@ import {
   ReportStatus,
   SafeLocationOperationalStatus,
 } from '../types';
+
+function mapRole(roles?: string[]): UserRole {
+  if (!roles || roles.length === 0) return 'ROLE_CITIZEN';
+  if (roles.includes('GLOBAL_ADMIN') || roles.includes('ROLE_ADMIN')) return 'ROLE_ADMIN';
+  if (roles.includes('DEFESA_CIVIL') || roles.includes('ROLE_DEFESA_CIVIL')) return 'ROLE_DEFESA_CIVIL';
+  if (roles.includes('MUNICIPAL_OPERATOR') || roles.includes('ROLE_OPERATOR') || roles.includes('OPERATOR')) return 'ROLE_OPERATOR';
+  return 'ROLE_CITIZEN';
+}
 
 const BASE_URL = '/api/v1';
 
@@ -57,15 +68,51 @@ class ApiClient {
 
   // --- Auth ---
   async login(email: string, password: string): Promise<LoginResponseData> {
-    const res = await this.request<ApiResponse<LoginResponseData>>('/auth/login', {
+    const res = await this.request<any>('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
-    const data = res.data;
-    localStorage.setItem('guardian_access_token', data.tokens.accessToken);
-    localStorage.setItem('guardian_refresh_token', data.tokens.refreshToken);
-    localStorage.setItem('guardian_user', JSON.stringify(data.user));
-    return data;
+    const rawData = res.data;
+
+    const accessToken = rawData.tokens?.accessToken || rawData.accessToken;
+    const refreshToken = rawData.tokens?.refreshToken || rawData.refreshToken;
+    const tokenType = rawData.tokens?.tokenType || rawData.tokenType || 'Bearer';
+    const expiresIn = rawData.tokens?.expiresIn || rawData.expiresIn || 86400;
+
+    const rawUser = rawData.user || {};
+    const rolesList = Array.isArray(rawUser.roles)
+      ? rawUser.roles
+      : rawUser.role
+      ? [rawUser.role]
+      : [];
+    const mappedRole = mapRole(rolesList);
+
+    const user: UserSummary = {
+      id: rawUser.id,
+      name: rawUser.name,
+      email: rawUser.email || email,
+      role: mappedRole,
+      municipalityId: rawUser.municipalityId || null,
+      permissions: rawUser.permissions || [],
+    };
+
+    const tokens: AuthTokens = {
+      accessToken,
+      refreshToken,
+      tokenType,
+      expiresIn,
+    };
+
+    localStorage.setItem('guardian_access_token', accessToken);
+    if (refreshToken) {
+      localStorage.setItem('guardian_refresh_token', refreshToken);
+    }
+    localStorage.setItem('guardian_user', JSON.stringify(user));
+
+    return {
+      tokens,
+      user,
+    };
   }
 
   logout(): void {

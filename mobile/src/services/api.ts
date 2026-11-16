@@ -1,6 +1,8 @@
 import { appStorage } from '../storage';
 import {
   LoginResponseData,
+  AuthTokens,
+  UserSummary,
   OccurrenceReport,
   RiskAssessment,
   Alert,
@@ -51,13 +53,39 @@ class MobileApiClient {
 
   // --- Auth ---
   async login(email: string, password: string): Promise<LoginResponseData> {
-    const res = await this.request<{ data: LoginResponseData }>('/auth/login', {
+    const res = await this.request<any>('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
-    await appStorage.setItem('guardian_mobile_token', res.data.tokens.accessToken);
-    await appStorage.setItem('guardian_mobile_user', JSON.stringify(res.data.user));
-    return res.data;
+    const rawData = res.data;
+    const accessToken = rawData.tokens?.accessToken || rawData.accessToken;
+    const refreshToken = rawData.tokens?.refreshToken || rawData.refreshToken;
+    const tokenType = rawData.tokens?.tokenType || rawData.tokenType || 'Bearer';
+    const expiresIn = rawData.tokens?.expiresIn || rawData.expiresIn || 86400;
+
+    const rawUser = rawData.user || {};
+    const user: UserSummary = {
+      id: rawUser.id,
+      name: rawUser.name,
+      email: rawUser.email || email,
+      role: rawUser.role || (rawUser.roles && rawUser.roles[0]) || 'CITIZEN',
+      municipalityId: rawUser.municipalityId || null,
+    };
+
+    const tokens: AuthTokens = {
+      accessToken,
+      refreshToken,
+      tokenType,
+      expiresIn,
+    };
+
+    await appStorage.setItem('guardian_mobile_token', accessToken);
+    await appStorage.setItem('guardian_mobile_user', JSON.stringify(user));
+
+    return {
+      tokens,
+      user,
+    };
   }
 
   async logout(): Promise<void> {

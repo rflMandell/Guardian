@@ -1,6 +1,10 @@
 package br.com.guardian.identity.application;
 
+import br.com.guardian.accesscontrol.domain.model.MembershipStatus;
+import br.com.guardian.accesscontrol.domain.model.MunicipalityMembership;
+import br.com.guardian.accesscontrol.domain.model.Permission;
 import br.com.guardian.accesscontrol.domain.model.Role;
+import br.com.guardian.accesscontrol.domain.repository.MunicipalityMembershipRepository;
 import br.com.guardian.accesscontrol.domain.repository.RoleRepository;
 import br.com.guardian.identity.api.dto.*;
 import br.com.guardian.identity.domain.model.RefreshToken;
@@ -23,6 +27,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HexFormat;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -32,6 +37,7 @@ public class IdentityService {
     private final CitizenProfileRepository citizenProfileRepository;
     private final RoleRepository roleRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final MunicipalityMembershipRepository membershipRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider tokenProvider;
 
@@ -39,12 +45,14 @@ public class IdentityService {
                            CitizenProfileRepository citizenProfileRepository,
                            RoleRepository roleRepository,
                            RefreshTokenRepository refreshTokenRepository,
+                           MunicipalityMembershipRepository membershipRepository,
                            PasswordEncoder passwordEncoder,
                            JwtTokenProvider tokenProvider) {
         this.userRepository = userRepository;
         this.citizenProfileRepository = citizenProfileRepository;
         this.roleRepository = roleRepository;
         this.refreshTokenRepository = refreshTokenRepository;
+        this.membershipRepository = membershipRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
     }
@@ -107,10 +115,33 @@ public class IdentityService {
         RefreshToken refreshToken = new RefreshToken(user, tokenHash, expiresAt);
         refreshTokenRepository.save(refreshToken);
 
+        String primaryRole = user.getRoles().stream()
+                .map(Role::getName)
+                .findFirst()
+                .orElse("CITIZEN");
+
+        List<String> permissions = user.getRoles().stream()
+                .flatMap(r -> r.getPermissions().stream())
+                .map(Permission::getName)
+                .distinct()
+                .toList();
+
+        UUID municipalityId = membershipRepository.findByUserIdAndStatus(user.getId(), MembershipStatus.ACTIVE)
+                .stream()
+                .map(MunicipalityMembership::getMunicipalityId)
+                .findFirst()
+                .orElseGet(() -> citizenProfileRepository.findByUserId(user.getId())
+                        .map(CitizenProfile::getMunicipalityId)
+                        .orElse(null));
+
         LoginUserData userData = new LoginUserData(
                 user.getId(),
                 user.getFullName(),
-                user.getRoles().stream().map(Role::getName).toList()
+                user.getEmail(),
+                primaryRole,
+                user.getRoles().stream().map(Role::getName).toList(),
+                municipalityId,
+                permissions
         );
 
         return new LoginResponseData(

@@ -6,5 +6,13 @@ import java.util.UUID;
 public record LoginUserData(
         UUID id,
         String name,
-        List<String> roles
-) {}
+        String email,
+        String role,
+        List<String> roles,
+        UUID municipalityId,
+        List<String> permissions
+) {
+    public LoginUserData(UUID id, String name, List<String> roles) {
+        this(id, name, null, roles != null && !roles.isEmpty() ? roles.get(0) : null, roles, null, List.of());
+    }
+}
