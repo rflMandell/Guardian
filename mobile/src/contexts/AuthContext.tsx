@@ -19,7 +19,7 @@ export const MobileAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [currentMunicipalityId, setCurrentMunicipalityId] = useState<string | null>(null);
 
   useEffect(() => {
-    appStorage.getItem('guardian_mobile_user').then((saved) => {
+    appStorage.getItem('encosta_segura_mobile_user').then((saved) => {
       if (saved) {
         try {
           const parsed = JSON.parse(saved);

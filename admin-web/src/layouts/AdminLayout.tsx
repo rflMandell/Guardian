@@ -54,7 +54,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, setCurrent
             <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
           </svg>
           <div>
-            <h1>Guardian</h1>
+            <h1>Encosta Segura</h1>
             <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Painel Administrativo</span>
           </div>
         </div>

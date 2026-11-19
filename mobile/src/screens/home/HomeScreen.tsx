@@ -160,7 +160,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => {
         }}
       >
         <span style={{ fontSize: '0.8rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 600 }}>
-          Monitoramento Guardian
+          Monitoramento Encosta Segura
         </span>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px' }}>
           <div>

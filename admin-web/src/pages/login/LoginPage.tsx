@@ -63,7 +63,7 @@ export const LoginPage: React.FC = () => {
               <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
             </svg>
           </div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>Guardian Admin</h2>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>Encosta Segura Admin</h2>
           <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '4px' }}>
             Acesso operacional para gestão de riscos e defesa civil
           </p>

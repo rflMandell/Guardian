@@ -121,7 +121,7 @@ export const AlertsPage: React.FC = () => {
           <div>
             <h3 className="card-title" style={{ margin: 0 }}>Comunicação e Gestão de Alertas</h3>
             <p style={{ color: '#64748b', fontSize: '0.85rem', marginTop: '4px' }}>
-              Emissão autorizada de alertas Guardian e histórico operacional
+              Emissão autorizada de alertas Encosta Segura e histórico operacional
             </p>
           </div>
 
@@ -223,7 +223,7 @@ export const AlertsPage: React.FC = () => {
         <div className="modal-overlay">
           <div className="modal">
             <div className="modal-header">
-              <h3 className="modal-title">Emitir Novo Alerta Guardian</h3>
+              <h3 className="modal-title">Emitir Novo Alerta Encosta Segura</h3>
               <button
                 style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer' }}
                 onClick={() => setShowCreateModal(false)}
@@ -359,7 +359,7 @@ export const AlertsPage: React.FC = () => {
             <form onSubmit={handleCloseAlert}>
               <div className="modal-body">
                 <p style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: '16px' }}>
-                  Atenção: A legislação e as regras do Guardian (RN033) exigem justificativa formal registrada em auditoria para o encerramento do alerta.
+                  Atenção: A legislação e as regras do Encosta Segura (RN033) exigem justificativa formal registrada em auditoria para o encerramento do alerta.
                 </p>
 
                 <div className="form-group">

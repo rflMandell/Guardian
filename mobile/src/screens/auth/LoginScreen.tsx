@@ -55,7 +55,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onContinueAsGuest }) =
             <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
           </svg>
         </div>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a' }}>Guardian</h1>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a' }}>Encosta Segura</h1>
         <p style={{ color: '#64748b', fontSize: '0.95rem', marginTop: '6px' }}>
           Orientação urbana e monitoramento de riscos em tempo real
         </p>

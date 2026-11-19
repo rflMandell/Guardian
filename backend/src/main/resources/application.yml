@@ -7,12 +7,12 @@ server:
 
 spring:
   application:
-    name: guardian
+    name: encosta-segura
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:guardian}
-    username: ${POSTGRES_USER:guardian}
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:encosta_segura}
+    username: ${POSTGRES_USER:encosta_segura}
     password: ${POSTGRES_PASSWORD:local_password}
     driver-class-name: org.postgresql.Driver
   jpa:

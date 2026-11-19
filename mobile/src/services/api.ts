@@ -17,7 +17,7 @@ const API_BASE_URL = typeof window !== 'undefined'
 
 class MobileApiClient {
   private async getAuthHeader(): Promise<Record<string, string>> {
-    const token = await appStorage.getItem('guardian_mobile_token');
+    const token = await appStorage.getItem('encosta_segura_mobile_token');
     if (!token) return {};
     return { Authorization: `Bearer ${token}` };
   }
@@ -79,8 +79,8 @@ class MobileApiClient {
       expiresIn,
     };
 
-    await appStorage.setItem('guardian_mobile_token', accessToken);
-    await appStorage.setItem('guardian_mobile_user', JSON.stringify(user));
+    await appStorage.setItem('encosta_segura_mobile_token', accessToken);
+    await appStorage.setItem('encosta_segura_mobile_user', JSON.stringify(user));
 
     return {
       tokens,
@@ -89,8 +89,8 @@ class MobileApiClient {
   }
 
   async logout(): Promise<void> {
-    await appStorage.removeItem('guardian_mobile_token');
-    await appStorage.removeItem('guardian_mobile_user');
+    await appStorage.removeItem('encosta_segura_mobile_token');
+    await appStorage.removeItem('encosta_segura_mobile_user');
   }
 
   // --- Municipalities ---

@@ -17,21 +17,21 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserSummary | null>(() => {
-    const saved = localStorage.getItem('guardian_user');
+    const saved = localStorage.getItem('encosta_segura_user');
     return saved ? JSON.parse(saved) : null;
   });
 
   const [selectedMunicipalityId, setSelectedMunicipalityId] = useState<string | null>(() => {
     if (user?.municipalityId) return user.municipalityId;
-    return localStorage.getItem('guardian_selected_mun') || null;
+    return localStorage.getItem('encosta_segura_selected_mun') || null;
   });
 
   useEffect(() => {
     const handleExpired = () => {
       setUser(null);
     };
-    window.addEventListener('guardian_auth_expired', handleExpired);
-    return () => window.removeEventListener('guardian_auth_expired', handleExpired);
+    window.addEventListener('encosta_segura_auth_expired', handleExpired);
+    return () => window.removeEventListener('encosta_segura_auth_expired', handleExpired);
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -39,23 +39,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(data.user);
     if (data.user.municipalityId) {
       setSelectedMunicipalityId(data.user.municipalityId);
-      localStorage.setItem('guardian_selected_mun', data.user.municipalityId);
+      localStorage.setItem('encosta_segura_selected_mun', data.user.municipalityId);
     }
   };
 
   const logout = () => {
     setUser(null);
     setSelectedMunicipalityId(null);
-    localStorage.removeItem('guardian_selected_mun');
+    localStorage.removeItem('encosta_segura_selected_mun');
     api.logout();
   };
 
   const handleSelectMunicipality = (id: string | null) => {
     setSelectedMunicipalityId(id);
     if (id) {
-      localStorage.setItem('guardian_selected_mun', id);
+      localStorage.setItem('encosta_segura_selected_mun', id);
     } else {
-      localStorage.removeItem('guardian_selected_mun');
+      localStorage.removeItem('encosta_segura_selected_mun');
     }
   };
 

@@ -11,11 +11,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>br.com.guardian</groupId>
-    <artifactId>guardian</artifactId>
+    <groupId>br.com.encostasegura</groupId>
+    <artifactId>encosta-segura</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>guardian</name>
-    <description>Guardian — Sistema Inteligente de Monitoramento de Riscos e Orientação para Evacuação Urbana</description>
+    <name>encosta-segura</name>
+    <description>Encosta Segura — Alertas de deslizamento e alagamento com IoT e Inteligência Artificial</description>
 
     <properties>
         <java.version>21</java.version>
@@ -125,7 +125,7 @@
     </dependencies>
 
     <build>
-        <finalName>guardian</finalName>
+        <finalName>encosta-segura</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

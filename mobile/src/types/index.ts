@@ -53,7 +53,7 @@ export interface RiskAssessment {
 }
 
 export type AlertSeverity = 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
-export type AlertOriginType = 'GUARDIAN' | 'OFFICIAL' | 'INTEGRATION';
+export type AlertOriginType = 'ENCOSTA_SEGURA' | 'OFFICIAL' | 'INTEGRATION';
 export type AlertStatus = 'ACTIVE' | 'SUPERSEDED' | 'EXPIRED' | 'CANCELLED' | 'CLOSED';
 
 export interface Alert {

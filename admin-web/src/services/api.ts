@@ -26,7 +26,7 @@ const BASE_URL = '/api/v1';
 
 class ApiClient {
   private getAuthHeader(): Record<string, string> {
-    const token = localStorage.getItem('guardian_access_token');
+    const token = localStorage.getItem('encosta_segura_access_token');
     if (!token) return {};
     return { Authorization: `Bearer ${token}` };
   }
@@ -45,10 +45,10 @@ class ApiClient {
     });
 
     if (response.status === 401) {
-      localStorage.removeItem('guardian_access_token');
-      localStorage.removeItem('guardian_refresh_token');
-      localStorage.removeItem('guardian_user');
-      window.dispatchEvent(new Event('guardian_auth_expired'));
+      localStorage.removeItem('encosta_segura_access_token');
+      localStorage.removeItem('encosta_segura_refresh_token');
+      localStorage.removeItem('encosta_segura_user');
+      window.dispatchEvent(new Event('encosta_segura_auth_expired'));
     }
 
     const contentType = response.headers.get('content-type');
@@ -103,11 +103,11 @@ class ApiClient {
       expiresIn,
     };
 
-    localStorage.setItem('guardian_access_token', accessToken);
+    localStorage.setItem('encosta_segura_access_token', accessToken);
     if (refreshToken) {
-      localStorage.setItem('guardian_refresh_token', refreshToken);
+      localStorage.setItem('encosta_segura_refresh_token', refreshToken);
     }
-    localStorage.setItem('guardian_user', JSON.stringify(user));
+    localStorage.setItem('encosta_segura_user', JSON.stringify(user));
 
     return {
       tokens,
@@ -116,9 +116,9 @@ class ApiClient {
   }
 
   logout(): void {
-    localStorage.removeItem('guardian_access_token');
-    localStorage.removeItem('guardian_refresh_token');
-    localStorage.removeItem('guardian_user');
+    localStorage.removeItem('encosta_segura_access_token');
+    localStorage.removeItem('encosta_segura_refresh_token');
+    localStorage.removeItem('encosta_segura_user');
     window.location.reload();
   }
 

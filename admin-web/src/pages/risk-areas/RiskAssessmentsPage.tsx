@@ -117,7 +117,7 @@ export const RiskAssessmentsPage: React.FC = () => {
       <div className="card">
         <h3 className="card-title">Fatores Determinísticos da Avaliação (Explicabilidade)</h3>
         <p style={{ color: '#64748b', fontSize: '0.875rem', marginBottom: '16px' }}>
-          O Guardian não oculta ausência de dados como ausência de risco e detalha a contribuição de cada fator observado.
+          O Encosta Segura não oculta ausência de dados como ausência de risco e detalha a contribuição de cada fator observado.
         </p>
 
         {assessment?.factors && assessment.factors.length > 0 ? (

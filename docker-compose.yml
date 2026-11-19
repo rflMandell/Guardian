@@ -1,11 +1,11 @@
 services:
   postgres:
     image: postgis/postgis:16-3.4
-    container_name: guardian-postgres
+    container_name: encosta-segura-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-guardian}
-      POSTGRES_USER: ${POSTGRES_USER:-guardian}
+      POSTGRES_DB: ${POSTGRES_DB:-encosta_segura}
+      POSTGRES_USER: ${POSTGRES_USER:-encosta_segura}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local_password}
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
@@ -13,16 +13,16 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-guardian} -d ${POSTGRES_DB:-guardian}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-encosta_segura} -d ${POSTGRES_DB:-encosta_segura}"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - guardian-network
+      - encosta-segura-network
 
   kafka:
     image: apache/kafka:3.7.0
-    container_name: guardian-kafka
+    container_name: encosta-segura-kafka
     restart: unless-stopped
     ports:
       - "${KAFKA_PORT:-9092}:9092"
@@ -42,7 +42,7 @@ services:
     volumes:
       - kafka_data:/var/lib/kafka/data
     networks:
-      - guardian-network
+      - encosta-segura-network
 
 volumes:
   postgres_data:
@@ -51,5 +51,5 @@ volumes:
     driver: local
 
 networks:
-  guardian-network:
+  encosta-segura-network:
     driver: bridge

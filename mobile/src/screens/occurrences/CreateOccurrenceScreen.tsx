@@ -69,7 +69,7 @@ export const CreateOccurrenceScreen: React.FC<CreateOccurrenceScreenProps> = ({ 
           Relato Enviado com Sucesso!
         </h2>
         <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '8px' }}>
-          A Defesa Civil e os operadores municipais do Guardian foram notificados para triagem imediata.
+          A Defesa Civil e os operadores municipais do Encosta Segura foram notificados para triagem imediata.
         </p>
       </div>
     );

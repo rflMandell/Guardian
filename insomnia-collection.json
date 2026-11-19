@@ -5,18 +5,18 @@
   "__export_source": "insomnia.desktop.app:v9.3.0",
   "resources": [
     {
-      "_id": "wrk_guardian",
+      "_id": "wrk_encosta_segura",
       "parentId": null,
       "modified": 1794834000000,
       "created": 1794834000000,
-      "name": "Guardian API — v1",
-      "description": "Coleção de testes manuais e demonstração oficial da Guardian REST API (MVP)",
+      "name": "Encosta Segura API — v1",
+      "description": "Coleção de testes manuais e demonstração oficial da Encosta Segura REST API (MVP)",
       "scope": "collection",
       "_type": "workspace"
     },
     {
       "_id": "env_base",
-      "parentId": "wrk_guardian",
+      "parentId": "wrk_encosta_segura",
       "modified": 1794834000000,
       "created": 1794834000000,
       "name": "Local Environment",
@@ -31,7 +31,7 @@
     },
     {
       "_id": "fld_health",
-      "parentId": "wrk_guardian",
+      "parentId": "wrk_encosta_segura",
       "name": "00 - Health Check",
       "_type": "request_group"
     },
@@ -45,7 +45,7 @@
     },
     {
       "_id": "fld_auth",
-      "parentId": "wrk_guardian",
+      "parentId": "wrk_encosta_segura",
       "name": "01 - Autenticação & Identidade",
       "_type": "request_group"
     },
@@ -99,7 +99,7 @@
     },
     {
       "_id": "fld_municipalities",
-      "parentId": "wrk_guardian",
+      "parentId": "wrk_encosta_segura",
       "name": "02 - Municípios",
       "_type": "request_group"
     },
@@ -113,7 +113,7 @@
     },
     {
       "_id": "fld_occurrences",
-      "parentId": "wrk_guardian",
+      "parentId": "wrk_encosta_segura",
       "name": "03 - Ocorrências & Relatos",
       "_type": "request_group"
     },
@@ -146,7 +146,7 @@
     },
     {
       "_id": "fld_risk",
-      "parentId": "wrk_guardian",
+      "parentId": "wrk_encosta_segura",
       "name": "04 - Avaliação de Risco",
       "_type": "request_group"
     },
@@ -176,8 +176,8 @@
     },
     {
       "_id": "fld_alerts",
-      "parentId": "wrk_guardian",
-      "name": "05 - Alertas Guardian",
+      "parentId": "wrk_encosta_segura",
+      "name": "05 - Alertas Encosta Segura",
       "_type": "request_group"
     },
     {
@@ -191,7 +191,7 @@
     {
       "_id": "req_create_alert",
       "parentId": "fld_alerts",
-      "name": "Emitir Alerta Guardian (Operador Municipal)",
+      "name": "Emitir Alerta Encosta Segura (Operador Municipal)",
       "url": "{{ _.base_url }}/admin/alerts",
       "method": "POST",
       "headers": [
@@ -200,13 +200,13 @@
       ],
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"municipalityId\": \"{{ _.municipality_id }}\",\n  \"title\": \"Alerta de Risco de Alagamento Iminente\",\n  \"description\": \"Chuva intensa com vias bloqueadas na região central.\",\n  \"severity\": \"HIGH\",\n  \"originType\": \"GUARDIAN\",\n  \"expiresAt\": \"2026-11-20T22:00:00Z\",\n  \"recommendations\": [\"Evite áreas baixas\", \"Acompanhe orientações oficiais\"]\n}"
+        "text": "{\n  \"municipalityId\": \"{{ _.municipality_id }}\",\n  \"title\": \"Alerta de Risco de Alagamento Iminente\",\n  \"description\": \"Chuva intensa com vias bloqueadas na região central.\",\n  \"severity\": \"HIGH\",\n  \"originType\": \"ENCOSTA_SEGURA\",\n  \"expiresAt\": \"2026-11-20T22:00:00Z\",\n  \"recommendations\": [\"Evite áreas baixas\", \"Acompanhe orientações oficiais\"]\n}"
       },
       "_type": "request"
     },
     {
       "_id": "fld_safe_locations",
-      "parentId": "wrk_guardian",
+      "parentId": "wrk_encosta_segura",
       "name": "06 - Pontos Seguros & Abrigos",
       "_type": "request_group"
     },
